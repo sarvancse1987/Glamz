@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!--<TargetFramework>netcoreapp3.1</TargetFramework>-->
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Glamz.Domain\Glamz.Domain.csproj" />
+    <ProjectReference Include="..\..\Core\Glamz.Infrastructure\Glamz.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Core\Glamz.SharedKernel\Glamz.SharedKernel.csproj" />
+    <ProjectReference Include="..\Glamz.Business.Customers\Glamz.Business.Customers.csproj" />
+  </ItemGroup>
+
+</Project>

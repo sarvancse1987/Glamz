@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Glamz.Domain\Glamz.Domain.csproj" />
+    <ProjectReference Include="..\..\Core\Glamz.Infrastructure\Glamz.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Core\Glamz.SharedKernel\Glamz.SharedKernel.csproj" />
+    <ProjectReference Include="..\Glamz.Business.Catalog\Glamz.Business.Catalog.csproj" />
+    <ProjectReference Include="..\Glamz.Business.Checkout\Glamz.Business.Checkout.csproj" />
+    <ProjectReference Include="..\Glamz.Business.Common\Glamz.Business.Common.csproj" />
+    <ProjectReference Include="..\Glamz.Business.Cms\Glamz.Business.Cms.csproj" />
+    <ProjectReference Include="..\Glamz.Business.Customers\Glamz.Business.Customers.csproj" />
+    <ProjectReference Include="..\Glamz.Business.Marketing\Glamz.Business.Marketing.csproj" />
+    <ProjectReference Include="..\Glamz.Business.Messages\Glamz.Business.Messages.csproj" />
+    <ProjectReference Include="..\Glamz.Business.Storage\Glamz.Business.Storage.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NPOI" Version="2.5.3" />
+  </ItemGroup>
+  
+  <PropertyGroup>
+    <!--<TargetFramework>netcoreapp3.1</TargetFramework>-->
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+</Project>

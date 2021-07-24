@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!--<TargetFramework>netcoreapp3.1</TargetFramework>-->
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    
+    <PackageReference Include="Wangkanai.Detection" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Glamz.Domain\Glamz.Domain.csproj" />
+    <ProjectReference Include="..\..\Core\Glamz.Infrastructure\Glamz.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Core\Glamz.SharedKernel\Glamz.SharedKernel.csproj" />
+    <ProjectReference Include="..\Glamz.Business.Authentication\Glamz.Business.Authentication.csproj" />
+    <ProjectReference Include="..\Glamz.Business.Common\Glamz.Business.Common.csproj" />
+  </ItemGroup>
+  
+</Project>

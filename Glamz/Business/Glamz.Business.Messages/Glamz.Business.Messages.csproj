@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!--<TargetFramework>netcoreapp3.1</TargetFramework>-->
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Glamz.Domain\Glamz.Domain.csproj" />
+    <ProjectReference Include="..\..\Core\Glamz.Infrastructure\Glamz.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Core\Glamz.SharedKernel\Glamz.SharedKernel.csproj" />
+    <ProjectReference Include="..\Glamz.Business.Common\Glamz.Business.Common.csproj" />
+    <ProjectReference Include="..\Glamz.Business.Storage\Glamz.Business.Storage.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="2.13.0" />
+  </ItemGroup>
+
+</Project>

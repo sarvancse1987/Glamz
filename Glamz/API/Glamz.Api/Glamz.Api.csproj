@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <!--<TargetFramework>netcoreapp3.1</TargetFramework>-->
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Business\Glamz.Business.Authentication\Glamz.Business.Authentication.csproj" />
+    <ProjectReference Include="..\..\Business\Glamz.Business.Cms\Glamz.Business.Cms.csproj" />
+    <ProjectReference Include="..\..\Business\Glamz.Business.Common\Glamz.Business.Common.csproj" />
+    <ProjectReference Include="..\..\Business\Glamz.Business.Customers\Glamz.Business.Customers.csproj" />
+    <ProjectReference Include="..\..\Business\Glamz.Business.Storage\Glamz.Business.Storage.csproj" />
+    <ProjectReference Include="..\..\Business\Glamz.Business.System\Glamz.Business.System.csproj" />
+    <ProjectReference Include="..\..\Core\Glamz.Infrastructure\Glamz.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Core\Glamz.SharedKernel\Glamz.SharedKernel.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.5.8" />
+    <PackageReference Include="Microsoft.AspNetCore.OData.Versioning" Version="5.0.0" />
+    <PackageReference Include="Microsoft.OData.Core" Version="7.9.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.1.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Rubix_Data\" />
+  </ItemGroup>
+
+</Project>

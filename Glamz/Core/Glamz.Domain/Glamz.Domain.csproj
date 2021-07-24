@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!--<TargetFramework>netcoreapp3.1</TargetFramework>-->
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Bson" Version="2.12.4" />
+    <PackageReference Include="MongoDB.Driver" Version="2.12.4" />
+    <PackageReference Include="MongoDB.Driver.Core" Version="2.12.4" />
+    <PackageReference Include="MongoDB.Driver.GridFS" Version="2.12.4" />
+    <PackageReference Include="DotLiquid" Version="2.1.457" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Glamz.SharedKernel\Glamz.SharedKernel.csproj" />
+  </ItemGroup>
+  
+</Project>
