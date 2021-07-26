@@ -56,6 +56,9 @@ namespace Glamz.Api
             //app.UseMvc();
             Glamz.Infrastructure.StartupBase.ConfigureRequestPipeline(app, env);
             DbEdmInitialization.DbInitiate(app, Configuration);
+            //configure authentication
+            app.UseAuthentication();
+            app.UseAuthorization();
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Glamz.Domain.Data
             //}
             //return _dataSettings;
             _dataSettings = new DataSettings();
-            _dataSettings.ConnectionString = "mongodb://127.0.0.1:27017/GalmzApi";//connectionstring;
+            _dataSettings.ConnectionString = "mongodb://127.0.0.1:27017/GlamzApiTestcase";//connectionstring;
             _dataSettings.DbProvider = Glamz.Domain.Data.DbProvider.MongoDB;
             return _dataSettings;
         }

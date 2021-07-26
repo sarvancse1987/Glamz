@@ -37,6 +37,7 @@ using Glamz.SharedKernel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -655,7 +656,7 @@ namespace Glamz.Business.System.Services.Installation
             try
             {
                 var dataSettings = DataSettingsManager.LoadSettings();
-                var dbContext = new MongoDBContext("mongodb://127.0.0.1:27017/GalmzApi");//dataSettings.ConnectionString
+                var dbContext = new MongoDBContext("mongodb://127.0.0.1:27017/GlamzApiTestcase");//dataSettings.ConnectionString
 
                 //var typeSearcher = _serviceProvider.GetRequiredService<ITypeSearcher>();
                 //var q = typeSearcher.GetAssemblies().FirstOrDefault(x => x.GetName().Name == "Glamz.Domain");
@@ -701,53 +702,57 @@ namespace Glamz.Business.System.Services.Installation
         {
             defaultUserEmail = defaultUserEmail.ToLower();
 
-            await CreateTables(collation);
-            await InstallVersion();
-            await InstallMenuAdminSiteMap();
-            await InstallStores(companyName, companyAddress, companyPhoneNumber, companyEmail);
-            await InstallMeasures();
-            await InstallTaxCategories();
-            await InstallLanguages();
-            await InstallCurrencies();
-            await InstallCountriesAndStates();
-            await InstallShippingMethods();
-            await InstallDeliveryDates();
-            await InstallCustomersAndUsers(defaultUserEmail, defaultUserPassword);//Hot coded values
-            await InstallEmailAccounts();
-            await InstallMessageTemplates();
-            await InstallCustomerAction();
-            await InstallSettings(installSampleData);
-            await InstallPageLayouts();
-            await InstallPages();
-            await InstallLocaleResources();
-            await InstallActivityLogTypes();
-            await HashDefaultCustomerPassword(defaultUserEmail, defaultUserPassword);
-            await InstallProductLayouts();
-            await InstallCategoryLayouts();
-            await InstallBrandLayouts();
-            await InstallCollectionLayouts();
-            await InstallScheduleTasks();
-            await InstallMerchandiseReturnReasons();
-            await InstallMerchandiseReturnActions();
-            await InstallOrderStatus();
-            if (installSampleData)
+            if (!await IsDbExist())
             {
-                await InstallCheckoutAttributes();
-                await InstallSpecificationAttributes();
-                await InstallProductAttributes();
-                await InstallCategories();
-                await InstallBrands();
-                await InstallProducts(defaultUserEmail);
-                await InstallDiscounts();
-                await InstallBlogPosts();
-                await InstallNews();
-                await InstallWarehouses();
-                await InstallPickupPoints();
-                await InstallVendors();
-                await InstallAffiliates();
-                await InstallOrderTags();
+
+                await CreateTables(collation);
+                await InstallVersion();
+                await InstallMenuAdminSiteMap();
+                await InstallStores(companyName, companyAddress, companyPhoneNumber, companyEmail);
+                await InstallMeasures();
+                await InstallTaxCategories();
+                await InstallLanguages();
+                await InstallCurrencies();
+                await InstallCountriesAndStates();
+                await InstallShippingMethods();
+                await InstallDeliveryDates();
+                await InstallCustomersAndUsers(defaultUserEmail, defaultUserPassword);//Hot coded values
+                await InstallEmailAccounts();
+                await InstallMessageTemplates();
+                await InstallCustomerAction();
+                //await InstallSettings(installSampleData);
+                await InstallPageLayouts();
+                await InstallPages();
+                //await InstallLocaleResources();
+                await InstallActivityLogTypes();
+                //await HashDefaultCustomerPassword(defaultUserEmail, defaultUserPassword);
+                await InstallProductLayouts();
+                await InstallCategoryLayouts();
+                await InstallBrandLayouts();
+                await InstallCollectionLayouts();
+                await InstallScheduleTasks();
+                await InstallMerchandiseReturnReasons();
+                await InstallMerchandiseReturnActions();
+                await InstallOrderStatus();
+                if (installSampleData)
+                {
+                    await InstallCheckoutAttributes();
+                    await InstallSpecificationAttributes();
+                    await InstallProductAttributes();
+                    //await InstallCategories();
+                    //await InstallBrands();
+                    await InstallProducts(defaultUserEmail);
+                    await InstallDiscounts();
+                    await InstallBlogPosts();
+                    await InstallNews();
+                    await InstallWarehouses();
+                    await InstallPickupPoints();
+                    await InstallVendors();
+                    await InstallAffiliates();
+                    await InstallOrderTags();
+                }
+                await AddNewUserApi();
             }
-            AddNewUserApi();
         }
 
         #endregion
@@ -755,22 +760,44 @@ namespace Glamz.Business.System.Services.Installation
 
         public async Task<int> AddNewUserApi()
         {
-            UserApi objapi = new UserApi()
+            try
             {
-                Email = "saravanan@rubixtek.com",
-                Id = "abc",
-                IsActive = true,
-                Password = "J6PHD3XImLmuQNHlqBte7g==",
-                PrivateKey = "133922101432392511362313",
-                Token = "e624121a-4542-425b-92c9-9259d68e1929"
-            };
-            if (_userapiRepository != null)
+                UserApi objapi = new UserApi()
+                {
+                    Email = "saravanan@rubixtek.com",
+                    Id = "abc",
+                    IsActive = true,
+                    Password = "J6PHD3XImLmuQNHlqBte7g==",
+                    PrivateKey = "133922101432392511362313",
+                    Token = "e624121a-4542-425b-92c9-9259d68e1929"
+                };
+                if (_userapiRepository != null)
+                {
+                    UserApi existuser = await _userapiRepository.FirstOrDefaultAsync(x => x.Email.ToLowerInvariant() == objapi.Email.ToLowerInvariant());
+                    if (existuser != null)
+                        _userapiRepository.Insert(objapi);
+                }
+            }
+            catch (Exception ex)
             {
-                UserApi existuser = await _userapiRepository.FirstOrDefaultAsync(x => x.Email.ToLowerInvariant() == objapi.Email.ToLowerInvariant());
-                if (existuser != null)
-                    _userapiRepository.Insert(objapi);
+
+                throw;
             }
             return 1;
+        }
+
+        public async Task<bool> IsDbExist()
+        {
+            bool isexist = false;
+            if (_userapiRepository != null)
+            {
+                List<UserApi> existuser = await _userapiRepository.GetAllAsync();
+                if (existuser != null && existuser.Count > 0)
+                {
+                    isexist = true;
+                }
+            }
+            return isexist;
         }
     }
 }

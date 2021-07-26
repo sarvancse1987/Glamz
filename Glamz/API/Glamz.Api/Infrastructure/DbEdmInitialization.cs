@@ -20,7 +20,7 @@ namespace Glamz.Api
 
                 if (Glamz.Domain.Data.DataSettingsManager.DatabaseIsInstalled())
                 {
-                    connectionString = "mongodb://127.0.0.1:27017/GalmzApi";
+                    connectionString = "mongodb://127.0.0.1:27017/GlamzApiTestcase";
                 }
 
 
