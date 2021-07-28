@@ -41,5 +41,13 @@ namespace Glamz.Api.Controllers
             var token = await _mediator.Send(new GenerateTokenCommand() { Claims = claims });
             return Content(token);
         }
+
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> Create1(string model)
+        {
+            return null;
+        }
     }
 }

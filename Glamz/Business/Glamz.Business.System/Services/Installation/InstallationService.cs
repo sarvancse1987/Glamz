@@ -720,7 +720,7 @@ namespace Glamz.Business.System.Services.Installation
                 await InstallEmailAccounts();
                 await InstallMessageTemplates();
                 await InstallCustomerAction();
-                //await InstallSettings(installSampleData);
+                await InstallSettings(installSampleData);
                 await InstallPageLayouts();
                 await InstallPages();
                 //await InstallLocaleResources();

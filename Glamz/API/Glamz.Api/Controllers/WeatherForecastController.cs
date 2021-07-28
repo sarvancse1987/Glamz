@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 namespace Glamz.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Area("Api")]
+    [Route("[area]/[controller]/[action]")]
+    [ApiExplorerSettings(IgnoreApi = false)]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
