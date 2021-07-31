@@ -302,8 +302,18 @@ namespace Glamz.Business.System.Services.Installation
 
         protected virtual async Task HashDefaultCustomerPassword(string defaultUserEmail, string defaultUserPassword)
         {
-            var customerManagerService = _serviceProvider.GetRequiredService<ICustomerManagerService>();
-            await customerManagerService.ChangePassword(new ChangePasswordRequest(defaultUserEmail, false, PasswordFormat.Hashed, defaultUserPassword));
+            try
+            {
+
+
+                //var customerManagerService = _serviceProvider.GetRequiredService<ICustomerManagerService>();
+                //await customerManagerService.ChangePassword(new ChangePasswordRequest(defaultUserEmail, false, PasswordFormat.Hashed, defaultUserPassword));
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         private async Task CreateIndexes(MongoDBContext dbContext, DataSettings dataSettings)
@@ -701,7 +711,6 @@ namespace Glamz.Business.System.Services.Installation
             string companyPhoneNumber = "", string companyEmail = "")
         {
             defaultUserEmail = defaultUserEmail.ToLower();
-
             if (!await IsDbExist())
             {
 
@@ -723,9 +732,9 @@ namespace Glamz.Business.System.Services.Installation
                 await InstallSettings(installSampleData);
                 await InstallPageLayouts();
                 await InstallPages();
-                //await InstallLocaleResources();
+                InstallLocaleResources();
                 await InstallActivityLogTypes();
-                //await HashDefaultCustomerPassword(defaultUserEmail, defaultUserPassword);
+                await HashDefaultCustomerPassword(defaultUserEmail, defaultUserPassword);
                 await InstallProductLayouts();
                 await InstallCategoryLayouts();
                 await InstallBrandLayouts();
@@ -739,8 +748,8 @@ namespace Glamz.Business.System.Services.Installation
                     await InstallCheckoutAttributes();
                     await InstallSpecificationAttributes();
                     await InstallProductAttributes();
-                    //await InstallCategories();
-                    //await InstallBrands();
+                    await InstallCategories();
+                    await InstallBrands();
                     await InstallProducts(defaultUserEmail);
                     await InstallDiscounts();
                     await InstallBlogPosts();
@@ -765,16 +774,16 @@ namespace Glamz.Business.System.Services.Installation
                 UserApi objapi = new UserApi()
                 {
                     Email = "saravanan@rubixtek.com",
-                    Id = "abc",
+                    //Id = "abc",
                     IsActive = true,
-                    Password = "J6PHD3XImLmuQNHlqBte7g==",
+                    Password = "MTIzNDU2",
                     PrivateKey = "133922101432392511362313",
                     Token = "e624121a-4542-425b-92c9-9259d68e1929"
                 };
                 if (_userapiRepository != null)
                 {
                     UserApi existuser = await _userapiRepository.FirstOrDefaultAsync(x => x.Email.ToLowerInvariant() == objapi.Email.ToLowerInvariant());
-                    if (existuser != null)
+                    if (existuser == null)
                         _userapiRepository.Insert(objapi);
                 }
             }

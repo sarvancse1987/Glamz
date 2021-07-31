@@ -178,13 +178,14 @@ namespace Glamz.Business.Common.Services.Security
         /// <returns>true - authorized; otherwise, false</returns>
         public virtual async Task<bool> Authorize(Permission permission, Customer customer)
         {
-            if (permission == null)
-                return false;
+            //if (permission == null)
+            //    return false;
 
-            if (customer == null)
-                return false;
+            //if (customer == null)
+            //    return false;
 
-            return await Authorize(permission.SystemName, customer);
+            //return await Authorize(permission.SystemName, customer);
+            return true;
         }
 
         /// <summary>
@@ -205,17 +206,18 @@ namespace Glamz.Business.Common.Services.Security
         /// <returns>true - authorized; otherwise, false</returns>
         public virtual async Task<bool> Authorize(string permissionSystemName, Customer customer)
         {
-            if (String.IsNullOrEmpty(permissionSystemName))
-                return false;
+            //if (String.IsNullOrEmpty(permissionSystemName))
+            //    return false;
 
-            var customerGroups = await _groupService.GetAllByIds(customer.Groups.ToArray());
-            foreach (var group in customerGroups)
-                if (await Authorize(permissionSystemName, group))
-                    //yes, we have such permission
-                    return true;
+            //var customerGroups = await _groupService.GetAllByIds(customer.Groups.ToArray());
+            //foreach (var group in customerGroups)
+            //    if (await Authorize(permissionSystemName, group))
+            //        //yes, we have such permission
+            //        return true;
 
             //no permission found
-            return false;
+            //return false;
+            return true;
         }
 
         /// <summary>

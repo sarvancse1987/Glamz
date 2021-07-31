@@ -80,11 +80,13 @@ namespace Glamz.Api
 
                 //services.AddMvc();
                 services.AddScoped<Glamz.Infrastructure.Caching.ICacheBase, Glamz.Infrastructure.Caching.MemoryCacheBase>();
-                services.AddScoped<Glamz.Business.Common.Interfaces.Localization.ITranslationService, Glamz.Business.Common.Services.Localization.TranslationService>();
+                //services.AddScoped<Glamz.Business.Common.Interfaces.Localization.ITranslationService, Glamz.Business.Common.Services.Localization.TranslationService>();
                 services.AddScoped<Glamz.Business.Common.Interfaces.Localization.ILanguageService, Glamz.Business.Common.Services.Localization.LanguageService>();
+                //services.AddTransient<IDatabaseContext, MongoDBContext>();
                 services.AddScoped<IGrandAuthenticationService, CookieAuthenticationService>();
-
+                services.AddTransient<WorkContextMiddleware>();
                 Glamz.Infrastructure.StartupBase.ConfigureServices(services, Configuration);
+              
                 //services.AddControllers();
 
                 var config = new AppConfig();
@@ -287,6 +289,24 @@ namespace Glamz.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
+            //set workcontext
+
+            //app.UseMiddleware<DbVersionCheckMiddleware>();
+
+            DbEdmInitialization.DbInitiate(app, Configuration);
+
+            //configure authentication
+
+
+
+            //check whether database is installed
+            if (!DataSettingsManager.DatabaseIsInstalled())
+                return;
+            app.UseMiddleware<WorkContextMiddleware>();
+            Glamz.Infrastructure.StartupBase.ConfigureRequestPipeline(app, env);
+           
+
+
             //app.UseEndpoints(endpoints =>
             //{
             //    endpoints.MapControllers();
@@ -309,25 +329,14 @@ namespace Glamz.Api
                     foreach (var endpointProvider in instances)
                         endpointProvider.RegisterEndpoint(endpoints);
                 });
-                Glamz.Infrastructure.StartupBase.ConfigureRequestPipeline(app, env);
+              
 
-
-                DbEdmInitialization.DbInitiate(app, Configuration);
+               
                 //configure authentication
+                //app.UseAuthentication();
+                //app.UseAuthorization();
 
 
-
-                //check whether database is installed
-                if (!DataSettingsManager.DatabaseIsInstalled())
-                    return;
-
-                //configure authentication
-                app.UseAuthentication();
-                app.UseAuthorization();
-
-                //set workcontext
-                //app.UseMiddleware<WorkContextMiddleware>();
-                //app.UseMiddleware<DbVersionCheckMiddleware>();
             }
             catch (Exception ex)
             {

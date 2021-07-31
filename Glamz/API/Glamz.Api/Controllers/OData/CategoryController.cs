@@ -48,6 +48,16 @@ namespace Glamz.Api.Controllers.OData
             if (!await _permissionService.Authorize(PermissionSystemName.Categories))
                 return Forbid();
 
+            try
+            {
+                var test = await _mediator.Send(new GetQuery<CategoryDto>());
+            }
+            catch (System.Exception ex)
+            {
+
+                throw;
+            }
+
             return Ok(await _mediator.Send(new GetQuery<CategoryDto>()));
         }
 

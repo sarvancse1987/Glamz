@@ -47,11 +47,13 @@ namespace Glamz.Api.Filters
 
             #region Ctor
 
-            public AuthorizeApiAdminFilter(bool ignoreFilter, IPermissionService permissionService, SecuritySettings securitySettings)
+            public AuthorizeApiAdminFilter(bool ignoreFilter, IPermissionService permissionService
+                //, SecuritySettings securitySettings
+                )
             {
                 _ignoreFilter = ignoreFilter;
                 _permissionService = permissionService;
-                _securitySettings = securitySettings;
+                //_securitySettings = securitySettings;
             }
 
             #endregion
@@ -88,7 +90,7 @@ namespace Glamz.Api.Filters
                         filterContext.Result = new ForbidResult(JwtBearerDefaults.AuthenticationScheme);
 
                     //get allowed IP addresses
-                    var ipAddresses = _securitySettings.AdminAreaAllowedIpAddresses;
+                    var ipAddresses = _securitySettings == null ? null : _securitySettings.AdminAreaAllowedIpAddresses;
 
                     //there are no restrictions
                     if (ipAddresses == null || !ipAddresses.Any())

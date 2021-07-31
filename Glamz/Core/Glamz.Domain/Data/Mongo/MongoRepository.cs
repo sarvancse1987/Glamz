@@ -22,8 +22,10 @@ namespace Glamz.Domain.Data.Mongo
         /// </summary>
         protected IMongoCollection<T> _collection;
 
-        public IMongoCollection<T> Collection {
-            get {
+        public IMongoCollection<T> Collection
+        {
+            get
+            {
                 return _collection;
             }
         }
@@ -41,8 +43,10 @@ namespace Glamz.Domain.Data.Mongo
         /// Mongo Database
         /// </summary>
         protected IMongoDatabase _database;
-        public IMongoDatabase Database {
-            get {
+        public IMongoDatabase Database
+        {
+            get
+            {
                 return _database;
             }
         }
@@ -139,8 +143,15 @@ namespace Glamz.Domain.Data.Mongo
         /// <param name="entity">Entity</param>
         public virtual async Task<T> InsertAsync(T entity)
         {
-            await _collection.InsertOneAsync(entity);
-            return entity;
+            try
+            {
+                await _collection.InsertOneAsync(entity);
+                return entity;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -230,7 +241,7 @@ namespace Glamz.Domain.Data.Mongo
         /// <param name="updateBuilder"></param>
         /// <returns></returns>
         public virtual async Task UpdateOneAsync(Expression<Func<T, bool>> filterexpression, UpdateBuilder<T> updateBuilder)
-        {           
+        {
             var update = Builders<T>.Update.Combine(updateBuilder.Fields);
             await _collection.UpdateOneAsync(filterexpression, update);
         }
@@ -277,7 +288,7 @@ namespace Glamz.Domain.Data.Mongo
         /// <param name="value">Subdocument - to update (all values)</param>
         public virtual async Task UpdateToSet<U, Z>(string id, Expression<Func<T, IEnumerable<U>>> field, Expression<Func<U, Z>> elemFieldMatch, Z elemMatch, U value)
         {
-            var filter = Builders<T>.Filter.Eq(x => x.Id, id) 
+            var filter = Builders<T>.Filter.Eq(x => x.Id, id)
                 & Builders<T>.Filter.ElemMatch(field, Builders<U>.Filter.Eq(elemFieldMatch, elemMatch));
 
             MemberExpression me = field.Body as MemberExpression;
@@ -479,7 +490,8 @@ namespace Glamz.Domain.Data.Mongo
         /// <summary>
         /// Gets a table
         /// </summary>
-        public virtual IQueryable<T> Table {
+        public virtual IQueryable<T> Table
+        {
             get { return _collection.AsQueryable(); }
         }
 

@@ -65,11 +65,18 @@ namespace Glamz.Business.Common.Services.Configuration
         /// <param name="clearCache">A value indicating whether to clear cache after setting update</param>
         public virtual async Task InsertSetting(Setting setting, bool clearCache = true)
         {
-            if (setting == null)
-                throw new ArgumentNullException(nameof(setting));
+            try
+            {
+                if (setting == null)
+                    throw new ArgumentNullException(nameof(setting));
 
-            await _settingRepository.InsertAsync(setting);
+                await _settingRepository.InsertAsync(setting);
 
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
             //cache
             if (clearCache)
                 await _cacheBase.Clear();
@@ -182,7 +189,8 @@ namespace Glamz.Business.Common.Services.Configuration
             {
                 //insert
                 var metadata = JsonSerializer.Serialize(value);
-                setting = new Setting {
+                setting = new Setting
+                {
                     Name = key.ToLowerInvariant(),
                     Metadata = metadata,
                     StoreId = storeId
@@ -242,25 +250,34 @@ namespace Glamz.Business.Common.Services.Configuration
         /// <param name="settings">Setting instance</param>
         public virtual async Task SaveSetting<T>(T settings, string storeId = "") where T : ISettings, new()
         {
-            var dbsettings = GetSettingsByName(typeof(T).Name);
-            var setting = dbsettings.Any() ? dbsettings.FirstOrDefault(x => x.StoreId == storeId) : null;
-            if (setting != null)
+            try
             {
-                //update
-                setting.Metadata = JsonSerializer.Serialize(settings);
-                await UpdateSetting(setting);
-            }
-            else
-            {
-                //insert
-                setting = new Setting {
-                    Name = typeof(T).Name.ToLowerInvariant(),
-                    Metadata = JsonSerializer.Serialize(settings),
-                    StoreId = storeId
-                };
-                await InsertSetting(setting);
-            }
 
+
+                var dbsettings = GetSettingsByName(typeof(T).Name);
+                var setting = dbsettings.Any() ? dbsettings.FirstOrDefault(x => x.StoreId == storeId) : null;
+                if (setting != null)
+                {
+                    //update
+                    setting.Metadata = JsonSerializer.Serialize(settings);
+                    await UpdateSetting(setting);
+                }
+                else
+                {
+                    //insert
+                    setting = new Setting
+                    {
+                        Name = typeof(T).Name.ToLowerInvariant(),
+                        Metadata = JsonSerializer.Serialize(settings),
+                        StoreId = storeId
+                    };
+                    await InsertSetting(setting);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
             //and now clear cache
             await ClearCache();
         }

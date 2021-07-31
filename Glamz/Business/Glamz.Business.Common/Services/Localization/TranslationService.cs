@@ -47,10 +47,13 @@ namespace Glamz.Business.Common.Services.Localization
         /// <param name="mediator">Mediator</param>
         public TranslationService(
             ICacheBase cacheBase,
+
             IWorkContext workContext,
             IRepository<TranslationResource> trRepository,
-            IMediator mediator)
+            IMediator mediator
+            )
         {
+            
             _cacheBase = cacheBase;
             _workContext = workContext;
             _translationRepository = trRepository;
@@ -365,7 +368,7 @@ namespace Glamz.Business.Common.Services.Localization
                     });
             }
 
-            await _translationRepository.InsertManyAsync(translateResources);
+            //await _translationRepository.InsertManyAsync(translateResources);//commentedbysara
 
             //clear cache
             await _cacheBase.RemoveByPrefix(CacheKey.TRANSLATERESOURCES_PATTERN_KEY);

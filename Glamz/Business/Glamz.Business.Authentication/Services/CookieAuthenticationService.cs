@@ -51,14 +51,14 @@ namespace Glamz.Business.Authentication.Services
         /// <param name="httpContextAccessor">HTTP context accessor</param>
         /// <param name="AppConfig">AppConfig</param>
         public CookieAuthenticationService(
-            CustomerSettings customerSettings,
+          //  CustomerSettings customerSettings,
             ICustomerService customerService,
             IGroupService groupService,
             IUserFieldService userFieldService,
             IHttpContextAccessor httpContextAccessor,
             AppConfig appConfig)
         {
-            _customerSettings = customerSettings;
+         //   _customerSettings = customerSettings;
             _customerService = customerService;
             _groupService = groupService;
             _userFieldService = userFieldService;

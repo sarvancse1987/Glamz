@@ -64,7 +64,7 @@ namespace Glamz.Business.Authentication
             IHttpContextAccessor httpContextAccessor,
             IGrandAuthenticationService authenticationService,
             IApiAuthenticationService apiauthenticationService,
-            ICurrencyService currencyService,
+            //ICurrencyService currencyService,
             ICustomerService customerService,
             IGroupService groupService,
             IUserFieldService userFieldService,
@@ -73,14 +73,14 @@ namespace Glamz.Business.Authentication
             IAclService aclService,
             IVendorService vendorService,
             IDetectionService detectionService,
-            LanguageSettings languageSettings,
-            TaxSettings taxSettings,
+            //LanguageSettings languageSettings,
+            //TaxSettings taxSettings,
             AppConfig config)
         {
             _httpContextAccessor = httpContextAccessor;
             _authenticationService = authenticationService;
             _apiauthenticationService = apiauthenticationService;
-            _currencyService = currencyService;
+            //_currencyService = currencyService;
             _customerService = customerService;
             _groupService = groupService;
             _userFieldService = userFieldService;
@@ -89,8 +89,8 @@ namespace Glamz.Business.Authentication
             _aclService = aclService;
             _vendorService = vendorService;
             _detectionService = detectionService;
-            _languageSettings = languageSettings;
-            _taxSettings = taxSettings;
+            //_languageSettings = languageSettings;
+            //_taxSettings = taxSettings;
             _config = config;
         }
 
@@ -377,11 +377,11 @@ namespace Glamz.Business.Authentication
             //get current lang identifier
             var customerLanguageId = customer.GetUserFieldFromEntity<string>(SystemCustomerFieldNames.LanguageId, CurrentStore.Id);
 
-            if (_languageSettings.AutomaticallyDetectLanguage &&
-                language == null && string.IsNullOrEmpty(customerLanguageId))
-            {
-                language = await GetLanguageFromRequest(allStoreLanguages);
-            }
+            //if (_languageSettings.AutomaticallyDetectLanguage &&
+            //    language == null && string.IsNullOrEmpty(customerLanguageId))
+            //{
+            //    language = await GetLanguageFromRequest(allStoreLanguages);
+            //}
 
             //check customer language 
             var customerLanguage = language ??
@@ -417,45 +417,45 @@ namespace Glamz.Business.Authentication
         public virtual async Task<Currency> SetWorkingCurrency(Customer customer)
         {
             //return store currency when we're you are in admin panel
-            var adminAreaUrl = _httpContextAccessor.HttpContext.Request.Path.StartsWithSegments(new PathString("/Admin"));
-            if (adminAreaUrl)
-            {
-                var primaryStoreCurrency = await _currencyService.GetPrimaryStoreCurrency();
-                if (primaryStoreCurrency != null)
-                {
-                    _cachedCurrency = primaryStoreCurrency;
-                    return primaryStoreCurrency;
-                }
-            }
-            var allStoreCurrencies = await _currencyService.GetAllCurrencies(storeId: CurrentStore?.Id);
+            //var adminAreaUrl = _httpContextAccessor.HttpContext.Request.Path.StartsWithSegments(new PathString("/Admin"));
+            //if (adminAreaUrl)
+            //{
+            //    var primaryStoreCurrency = new Currency();//await _currencyService.GetPrimaryStoreCurrency();
+            //    if (primaryStoreCurrency != null)
+            //    {
+            //        _cachedCurrency = primaryStoreCurrency;
+            //        return primaryStoreCurrency;
+            //    }
+            //}
+            //var allStoreCurrencies = await _currencyService.GetAllCurrencies(storeId: CurrentStore?.Id);
 
-            if (allStoreCurrencies.Count() == 1)
-                return _cachedCurrency = allStoreCurrencies.FirstOrDefault();
+            //if (allStoreCurrencies.Count() == 1)
+            //    return _cachedCurrency = allStoreCurrencies.FirstOrDefault();
 
-            var customerCurrencyId = customer.GetUserFieldFromEntity<string>(SystemCustomerFieldNames.CurrencyId, CurrentStore.Id);
+            //var customerCurrencyId = customer.GetUserFieldFromEntity<string>(SystemCustomerFieldNames.CurrencyId, CurrentStore.Id);
 
-            var customerCurrency = allStoreCurrencies.FirstOrDefault(currency => currency.Id == customerCurrencyId);
+            //var customerCurrency = allStoreCurrencies.FirstOrDefault(currency => currency.Id == customerCurrencyId);
 
-            if (customerCurrency == null)
-            {
-                if (!string.IsNullOrEmpty(CurrentStore?.DefaultCurrencyId))
-                    customerCurrency = allStoreCurrencies.FirstOrDefault(currency => currency.Id == CurrentStore.DefaultCurrencyId);
-                else
-                    customerCurrency = allStoreCurrencies.FirstOrDefault(currency => currency.Id == WorkingLanguage.DefaultCurrencyId);
-            }
+            //if (customerCurrency == null)
+            //{
+            //    if (!string.IsNullOrEmpty(CurrentStore?.DefaultCurrencyId))
+            //        customerCurrency = allStoreCurrencies.FirstOrDefault(currency => currency.Id == CurrentStore.DefaultCurrencyId);
+            //    else
+            //        customerCurrency = allStoreCurrencies.FirstOrDefault(currency => currency.Id == WorkingLanguage.DefaultCurrencyId);
+            //}
 
-            if (customerCurrency == null)
-                customerCurrency = allStoreCurrencies.FirstOrDefault();
+            //if (customerCurrency == null)
+            //    customerCurrency = allStoreCurrencies.FirstOrDefault();
 
-            //cache the currency
-            _cachedCurrency = customerCurrency;
+            ////cache the currency
+            //_cachedCurrency = customerCurrency;
 
-            //save the currency identifier
-            if (customerCurrency.Id != customerCurrencyId)
-            {
-                await _userFieldService.SaveField(customer,
-                    SystemCustomerFieldNames.CurrencyId, customerCurrency?.Id, CurrentStore.Id);
-            }
+            ////save the currency identifier
+            //if (customerCurrency.Id != customerCurrencyId)
+            //{
+            //    await _userFieldService.SaveField(customer,
+            //        SystemCustomerFieldNames.CurrencyId, customerCurrency?.Id, CurrentStore.Id);
+            //}
 
             return _cachedCurrency ?? throw new Exception("No currency could be loaded");
         }
@@ -484,18 +484,18 @@ namespace Glamz.Business.Authentication
         {
             TaxDisplayType taxDisplayType;
 
-            if (_taxSettings.AllowCustomersToSelectTaxDisplayType && customer != null)
-            {
-                var taxDisplayTypeId = customer.GetUserFieldFromEntity<int>(SystemCustomerFieldNames.TaxDisplayTypeId, CurrentStore.Id);
-                taxDisplayType = (TaxDisplayType)taxDisplayTypeId;
-            }
-            else
-            {
-                //or get the default tax display type
-                taxDisplayType = _taxSettings.TaxDisplayType;
-            }
+            //if (_taxSettings.AllowCustomersToSelectTaxDisplayType && customer != null)
+            //{
+            //    var taxDisplayTypeId = customer.GetUserFieldFromEntity<int>(SystemCustomerFieldNames.TaxDisplayTypeId, CurrentStore.Id);
+            //    taxDisplayType = (TaxDisplayType)taxDisplayTypeId;
+            //}
+            //else
+            //{
+            //    //or get the default tax display type
+            //    taxDisplayType = _taxSettings.TaxDisplayType;
+            //}
             //cache the value
-            _cachedTaxDisplayType = taxDisplayType;
+            //_cachedTaxDisplayType = taxDisplayType;
 
             return await Task.FromResult(_cachedTaxDisplayType);
         }

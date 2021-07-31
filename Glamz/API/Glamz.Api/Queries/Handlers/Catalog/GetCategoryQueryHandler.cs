@@ -1,6 +1,7 @@
 ﻿using Glamz.Api.DTOs.Catalog;
 using Glamz.Api.Queries.Models.Common;
 using Glamz.Domain.Data;
+using Glamz.Domain.Data.Mongo;
 using MediatR;
 using System.Linq;
 using System.Threading;
@@ -12,9 +13,10 @@ namespace Glamz.Api.Queries.Handlers.Common
     {
         private readonly IDatabaseContext _dbContext;
 
-        public GetCategoryQueryHandler(IDatabaseContext dbContext)
+        public GetCategoryQueryHandler()//IDatabaseContext dbContext
         {
-            _dbContext = dbContext;
+            //_dbContext = dbContext;
+            _dbContext = new MongoDBContext("mongodb://127.0.0.1:27017/GlamzApiTestcase");
         }
         public async Task<IQueryable<CategoryDto>> Handle(GetQuery<CategoryDto> request, CancellationToken cancellationToken)
         {

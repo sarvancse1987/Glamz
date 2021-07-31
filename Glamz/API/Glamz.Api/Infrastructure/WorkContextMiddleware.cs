@@ -46,7 +46,7 @@ namespace Glamz.Api.Infrastructure
             var customer = await workContext.SetCurrentCustomer();
             var vendor = await workContext.SetCurrentVendor(customer);
             var language = await workContext.SetWorkingLanguage(customer);
-            var currency = await workContext.SetWorkingCurrency(customer);
+            //var currency = await workContext.SetWorkingCurrency(customer);
             var taxtype = await workContext.SetTaxDisplayType(customer);
 
             //set culture in admin area

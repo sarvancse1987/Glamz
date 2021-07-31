@@ -41,10 +41,10 @@ namespace Glamz.Infrastructure.Startup
 
             }
 
-            serviceCollection.AddScoped<IDatabaseContext, MongoDBContext>();
+            serviceCollection.AddTransient<IDatabaseContext, MongoDBContext>();
 
             //MongoDbRepository
-            serviceCollection.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
+            serviceCollection.AddTransient(typeof(IRepository<>), typeof(MongoRepository<>));
 
         }
     }

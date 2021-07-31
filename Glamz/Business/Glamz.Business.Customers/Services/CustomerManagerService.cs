@@ -52,8 +52,9 @@ namespace Glamz.Business.Customers.Services
             ITranslationService translationService,
             IMediator mediator,
             IUserFieldService userFieldService,
-            ICustomerHistoryPasswordService customerHistoryPasswordService,
-            CustomerSettings customerSettings)
+            ICustomerHistoryPasswordService customerHistoryPasswordService
+            //,CustomerSettings customerSettings
+            )
         {
             _customerService = customerService;
             _groupService = groupService;
@@ -62,7 +63,7 @@ namespace Glamz.Business.Customers.Services
             _mediator = mediator;
             _userFieldService = userFieldService;
             _customerHistoryPasswordService = customerHistoryPasswordService;
-            _customerSettings = customerSettings;
+            //_customerSettings = customerSettings;
         }
 
         #endregion
